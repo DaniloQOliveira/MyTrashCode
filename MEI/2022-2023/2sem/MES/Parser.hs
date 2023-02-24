@@ -122,10 +122,36 @@ spaces = zeroOrMore (satisfy isSpace)
 
 ident = oneOrMore (satisfy isAlpha) -- letra maiuscla ou minuscla
 
+number = oneOrMore (satisfy isDigit)
+
 pIErr :: Parser [Char]
 pIErr = f <$> symbol 'i'
   <|> g <$> pIErr <*> symbol 'i'
   where f r1 = [r1]
         g r1 r2 = r1++[r2]
 
+
+enclosedBy a pl f = fs <$> a <*> pl <*> f
+  where fs r1 r2 r3 = r2
+
+-- I -> 
+--   | i ',' I
+followedBy p s = succeed []
+              <|> f <$> p <*> s <*> followedBy p s
+              where f r1 _ r3 = r1:r3
+
+-- I -> i
+--    | i ',' I
+separatedBy p s = f <$> p <*> s <*> separatedBy p s
+                <|> g <$> p 
+                where f r1 _ r3 = r1:r3 
+                      g k1 = [k1]
+
+-- bloco parser para bloco a la C
+block a i s f = enclosedBy a (followedBy i s) f
+
+blockC = block (symbol' '{')
+               (symbol' 'i') -- parser de statments
+               (symbol' ';')
+               (symbol' '}')
 
