@@ -4,22 +4,22 @@ export INPUTSIZE
 export NTIMES
 
 compile:
-	gcc -O2 -o counting_sort counting_sort.c
-	gcc -O2 -o insertion_sort insertion_sort.c
-	gcc -O2 -o quick_sort quick_sort.c
+	gcc -O2 -o c_counting_sort c_counting_sort.c
+	gcc -O2 -o c_insertion_sort c_insertion_sort.c
+	gcc -O2 -o c_quick_sort c_quick_sort.c
 
 run:
-	./counting_sort $(INPUTSIZE)
-	./insertion_sort $(INPUTSIZE)
-	./quick_sort $(INPUTSIZE)
+	./c_counting_sort $(INPUTSIZE)
+	./c_insertion_sort $(INPUTSIZE)
+	./c_quick_sort $(INPUTSIZE)
 
 measure: 
-	sudo ../RAPL/main "counting_sort $(INPUTSIZE)" $(NTIMES)
-	sudo ../RAPL/main "python3 counting_sort.py $(INPUTSIZE)" $(NTIMES)
-	sudo ../RAPL/main "insertion_sort $(INPUTSIZE)" $(NTIMES)
-	sudo ../RAPL/main "python3 insertion_sort.py $(INPUTSIZE)" $(NTIMES)
-	sudo ../RAPL/main "quick_sort $(INPUTSIZE)" $(NTIMES)
-	sudo ../RAPL/main "python3 quick_sort.py $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "c_counting_sort $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "python3 python_counting_sort.py $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "c_insertion_sort $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "python3 python_insertion_sort.py $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "c_quick_sort $(INPUTSIZE)" $(NTIMES)
+	sudo ../RAPL/main "python3 python_quick_sort.py $(INPUTSIZE)" $(NTIMES)
 
 clean:
-	rm -rf counting_sort insertion_sort quick_sort *.o
+	rm -rf c_counting_sort c_insertion_sort c_quick_sort *.o
